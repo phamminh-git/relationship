@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Relationship;
 use App\Models\User;
+use App\Notifications\FollowUser;
 use Illuminate\Http\Request;
+use Notification;
 use Illuminate\Support\Facades\Auth;
 
 class RelationshipController extends Controller
@@ -18,6 +20,7 @@ class RelationshipController extends Controller
     {
         $user = Auth::user();
         $other_user= User::find(2);
+        Notification::send($user, new FollowUser("$user->name is following you"));
         if($user->following($other_user)){
             echo "true";
         }
@@ -48,6 +51,7 @@ class RelationshipController extends Controller
             $query->with('category');
         }])->find($request->followed_id);
         $user->follow($other_user);
+        Notification::send($other_user, new FollowUser("$user->name is following you"));
         return response()->json('success');
         // return redirect()->route('users.show', ['user'=>$other_user]);
     }

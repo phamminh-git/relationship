@@ -77,6 +77,20 @@
                                     </form>
                                 </div>
                             </li>
+
+                            <li class="nav-item dropdown">
+                                <a href="#" id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true">
+                                    Notification <span class="carret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @forelse (Auth::user()->notifications as $notification)
+                                        <a class="dropdown-item">{{ $notification->data['message'] }}</a>
+                                    @empty
+                                        <a class="dropdown-item">No record found</a>
+                                    @endforelse
+                                </div>
+                            </li>
                         @endguest
                     </ul>
                 </div>
